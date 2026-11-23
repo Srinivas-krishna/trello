@@ -5,6 +5,7 @@ import { useDrag } from 'react-dnd';
 interface CardProps {
     title: string;
     description: string;
+    id;
 }
 
 export function Card(props:CardProps){
@@ -12,7 +13,7 @@ export function Card(props:CardProps){
     const[{opacity},dragRef] = useDrag(
         () =>({
             type:"card",
-            item:{title:props.title,description:props.description},
+            item:{title:props.title,description:props.description, id:props.id},
             collect:(monitor)=>({
                 opacity: monitor.isDragging()?0.5:1
             })

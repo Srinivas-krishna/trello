@@ -1,7 +1,11 @@
 import { Appbar } from "./Appbar";
 import { Card } from "./card";
-
+import { BoardSections } from "./BoardSections";
+import { useState } from "react";
 export function Board(){
+    const [pendingTasks,setPendingTasks]= useState([{id:"1",title:"card 1",description:"This is an example of pending task card"}]);
+    const [ongoingTasks,setOngoingTasks]=useState([{id:"2",title:"card 2",description:"This is an example of ongoing task card"}]);
+    const [completedTasks,setCompletedTasks]=useState([{id:"3",title:"card 3",description:"This is an example of completed task card"}]);
     return(
         <>
             <div>
@@ -9,20 +13,40 @@ export function Board(){
                 <Appbar/>
 
                 <div style={{display:"flex"}}>
-                    <div style={{display:"flex",alignItems:"center",flex:1,borderRight:"1px solid black",flexDirection:"column",minHeight:"100vh"}}>
-                        <Card title={"card 1"} description={"Card 1 description this is the description of the first card element and it is an example to test the card element.Card 1 description this is the description of the first card element and it is an example to test the card elementCard 1 description this is the description of the first card element and it is an example to test the card element"}/>
-                    </div>
 
-                    <div style={{display:"flex",flex:1,borderRight:"1px solid black",minHeight:"100vh"}}>
-                        Div number 2
-                    </div>
 
-                    <div style={{display:"flex",flexDirection:"column",flex:1,borderRight:"1px solid black",minHeight:"100vh",}}>
-                        Div number 3
-                        <Card title={"card 1"} description={"Card 1 description this is the description of the first card element and it is an example to test the card element"}/>
-                        <Card title={"card 1"} description={"Card 1 description this is the description of the first card element and it is an example to test the card element"}/>
-                    
-                    </div>
+                    <BoardSections onDrop={(item)=>{
+                        setPendingTasks(p=>p.filter(x=>x.id!=item.id))
+                        setOngoingTasks(p=>p.filter(x=>x.id!=item.id))
+                        setCompletedTasks(p=>p.filter(x=>x.id!=item.id))
+                        setPendingTasks(p=>[...p,item])
+                    }}>
+                        {pendingTasks.map(task=><Card title={task.title} description={task.description} id={task.id}/>)}
+                    </BoardSections>
+
+
+
+                    <BoardSections onDrop={(item)=>{
+                        setPendingTasks(p=>p.filter(x=>x.id!=item.id))
+                        setOngoingTasks(p=>p.filter(x=>x.id!=item.id))
+                        setCompletedTasks(p=>p.filter(x=>x.id!=item.id))
+                        setOngoingTasks(p=>[...p,item])
+                    }}>
+                        {ongoingTasks.map(task=><Card title={task.title} description={task.description} id={task.id}/>)}
+                    </BoardSections>
+
+
+
+                    <BoardSections onDrop={(item)=>{
+                        setPendingTasks(p=>p.filter(x=>x.id!=item.id))
+                        setOngoingTasks(p=>p.filter(x=>x.id!=item.id))
+                        setCompletedTasks(p=>p.filter(x=>x.id!=item.id))
+                        setCompletedTasks(p=>[...p,item])
+                    }}>
+                       {completedTasks.map(task=><Card title={task.title} description={task.description} id={task.id}/>)}
+                    </BoardSections>
+
+
 
                 </div>
 
